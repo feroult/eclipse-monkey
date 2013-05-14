@@ -1,0 +1,30 @@
+/*
+ * Menu: Ignore Target
+ * Script-Path: /dextra-monkey/monkey/ignore_target.gm
+ * Kudos: fernando
+ * License: EPL 1.0
+ * Job: UIJob
+ * LANG: Groovy
+ */
+
+import org.eclipse.ui.*
+import org.eclipse.ui.console.*
+ 
+files = resources.filesMatching(".*/pom\\.xml")
+for (file in files) { 
+  targetFolder = file.eclipseObject.parent.findMember("target")
+  if (targetFolder != "None") 
+    targetFolder.setDerived(true)
+}
+
+def console = new MessageConsole('Groovy Monkey', null)
+
+ConsolePlugin.default.consoleManager.with {
+    addConsoles([console] as IConsole[])
+    showConsoleView(console)
+}
+
+def out = console.newMessageStream()
+out.println( 'all target ignored' )
+
+                                                         
